@@ -60,18 +60,14 @@ const findAllForAdmin = async ({ name, email, address, sortBy, sortOrder }) => {
  * Normal-user listing: all stores with the overall average rating and,
  * if this user has rated the store, their own submitted rating.
  */
-const findAllForNormalUser = async (userId, { name, address, sortBy, sortOrder }) => {
+const findAllForNormalUser = async (userId, { search, sortBy, sortOrder }) => {
   const { field, order } = sanitizeSort(sortBy, sortOrder);
   const conditions = [];
   const params = [userId];
 
-  if (name) {
-    conditions.push('s.name LIKE ?');
-    params.push(`%${name}%`);
-  }
-  if (address) {
-    conditions.push('s.address LIKE ?');
-    params.push(`%${address}%`);
+  if (search) {
+    conditions.push('(s.name LIKE ? OR s.address LIKE ?)');
+    params.push(`%${search}%`, `%${search}%`);
   }
 
   const whereClause = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';

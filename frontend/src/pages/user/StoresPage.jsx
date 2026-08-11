@@ -16,13 +16,13 @@ import Alert from '@mui/material/Alert';
 
 const StoresPage = () => {
   const [stores, setStores] = useState([]);
-  const [search, setSearch] = useState({ name: '', address: '' });
+  const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState('name');
   const [savingStoreId, setSavingStoreId] = useState(null);
   const [message, setMessage] = useState('');
 
   const loadStores = async () => {
-    const { data } = await getStoresForUser({ ...search, sortBy, sortOrder: 'ASC' });
+    const { data } = await getStoresForUser({ search, sortBy, sortOrder: 'ASC' });
     setStores(data.data);
   };
 
@@ -31,7 +31,7 @@ const StoresPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortBy]);
 
-  const handleSearchChange = (e) => setSearch({ ...search, [e.target.name]: e.target.value });
+  const handleSearchChange = (e) => setSearch(e.target.value);
 
   const handleRate = async (storeId, rating) => {
     setSavingStoreId(storeId);
@@ -55,20 +55,12 @@ const StoresPage = () => {
 
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mb: 4 }}>
         <TextField
-          name="name"
-          placeholder="Search by name"
-          value={search.name}
+          name="search"
+          placeholder="Search by store name or address..."
+          value={search}
           onChange={handleSearchChange}
           size="small"
-          sx={{ flex: '1 1 200px' }}
-        />
-        <TextField
-          name="address"
-          placeholder="Search by address"
-          value={search.address}
-          onChange={handleSearchChange}
-          size="small"
-          sx={{ flex: '1 1 200px' }}
+          sx={{ flex: '1 1 300px' }}
         />
         <Button variant="outlined" color="primary" onClick={loadStores}>
           Search
@@ -91,9 +83,9 @@ const StoresPage = () => {
         </Alert>
       )}
 
-      <Grid container spacing={3}>
+      <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 3 }}>
         {stores.map((store) => (
-          <Grid item xs={12} sm={6} md={4} key={store.id}>
+          <Box key={store.id}>
             <Card sx={{ 
               borderRadius: 4, 
               height: '100%', 
@@ -138,17 +130,17 @@ const StoresPage = () => {
                 )}
               </CardContent>
             </Card>
-          </Grid>
+          </Box>
         ))}
 
         {stores.length === 0 && (
-          <Grid item xs={12}>
+          <Box sx={{ gridColumn: '1 / -1' }}>
             <Typography variant="body2" color="text.secondary">
               No stores match your search.
             </Typography>
-          </Grid>
+          </Box>
         )}
-      </Grid>
+      </Box>
     </Container>
   );
 };

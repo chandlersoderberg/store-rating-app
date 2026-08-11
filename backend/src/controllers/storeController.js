@@ -2,10 +2,9 @@ const asyncHandler = require('../utils/asyncHandler');
 const storeService = require('../services/storeService');
 
 const listStores = asyncHandler(async (req, res) => {
-  const { name, address, sortBy, sortOrder } = req.query;
+  const { search, sortBy, sortOrder } = req.query;
   const stores = await storeService.listStoresForUser(req.user.id, {
-    name,
-    address,
+    search,
     sortBy,
     sortOrder,
   });
