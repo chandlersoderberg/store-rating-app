@@ -39,14 +39,14 @@ async function seed() {
     const normalUsers = normalNames.map((name, i) => ({
       name,
       email: `user${i + 1}_${name.split(' ')[0].toLowerCase()}@gmail.com`,
-      address: `Flat No ${101 + i}, Oak Street Apartments, Near Lincoln Park, Los Angeles, Texas 40002${i}`,
+      address: `${1200 + i} Oak Street, Apt ${101 + i}, Springfield, IL 6270${i}`,
       role: 'NORMAL'
     }));
 
     const ownerUsers = ownerNames.map((name, i) => ({
       name,
       email: `owner${i + 1}_${name.split(' ')[0].toLowerCase()}@business.com`,
-      address: `Bungalow No ${12 + i}, Maple Grove, Main Street, Downtown, Austin, Texas 41100${i}`,
+      address: `${500 + i} Maple Avenue, Suite ${12 + i}, Austin, TX 7870${i}`,
       role: 'OWNER'
     }));
 
